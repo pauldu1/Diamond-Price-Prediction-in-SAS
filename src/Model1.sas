@@ -13,9 +13,10 @@ Run;
 Proc Score Data=project.Diamonds_Validation      
            Score=project.Model_1_ParameterEst
            Type=parms
-           predict out=project.Model_1_val
-           ;
-     var logcarat cut_ord color_ord clarity_ord;
+           predict out=project.Model_1_val;
+
+	var logcarat cut_ord color_ord clarity_ord;
+
 Run;
 
 Data project.Model_1_val (keep=price Predicted_Price residual carat cut color clarity);
@@ -28,9 +29,10 @@ Run;
 ods graphics on;
 proc sgplot data=project.model_1_val;
   scatter x=price y=predicted_price/ transparency=0.9
-						   markerattrs=(symbol=circlefilled
-						     	    size=5
-									color=dodgerblue);
+			markerattrs=(symbol=circlefilled
+				size=5
+			color=dodgerblue);
+
 title color=white 'Scatter Plot of Price by Predicted Price';
 footnote color=white 'Remark: Predicted price has outliers';
 footnote2 color=white 'as large as $150,000 although very few';
@@ -39,7 +41,8 @@ xaxis label='price'
 	  labelattrs=(color=dimgray weight=bold)
 	  
 	  valueattrs=(color=gray)
-      minor display=(noline);
+          minor display=(noline);
+
 yaxis label='predicted price'
 	  labelattrs=(color=dimgray weight=bold)
 	  valueattrs=(color=gray)
@@ -47,7 +50,8 @@ yaxis label='predicted price'
 	  gridattrs=(color=lightgray)
 	  minorgrid
 	  minorgridattrs=(color=lightgray)
-      display=(noline noticks);
+          display=(noline noticks);
+
 format price predicted_price DOLLAR.;
 run;
 ods graphics off;
@@ -67,8 +71,7 @@ ods graphics off;
 Proc Score Data=project.TestDiamonds_FE      
            Score=project.Model_1_ParameterEst
            Type=parms
-           predict out=project.Model_1_pred
-           ;
+           predict out=project.Model_1_pred;
      var logcarat cut_ord color_ord clarity_ord;
 Run;
 
