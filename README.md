@@ -10,7 +10,7 @@ Among a matrix of techniques of data science, SAS is recognized as one of the mo
 ## Objectives
 The data science team was tasked to collect the historical diamond data set and conduct the data science project to provide the actionable insights about diamond dataset and predict the prices for 3,000 diamonds to bid. 
 
-The objectives are to: 
+#### The objectives are to: 
 *	Establish the Lifecycle pipeline of data science process
 *	Conduct Exploratory Data Analysis (EDA)
 *	Build Machine Learning model
@@ -18,9 +18,10 @@ The objectives are to:
 *	Provide recommendations
 
 ## Assumptions
-We assume that historical diamond data was collected from the current retial market. The diamond price that the model predicts represents the final retail price the consumer will pay. The company generally purchases diamonds from distributors at 70% of the retail price, so the recommended bid price will represent that.
+We assume that historical diamond data was collected from the current retail market. The diamond price that the model predicts represents the final retail price the consumer will pay. The company generally purchases diamonds from distributors at 70% of the retail price, so the recommended bid price will represent that.
 
 ## Lifecycle Data Science Process
-Diamond price prediction is a project with a lifecyle of data science process, which includes data collection, data exploratory analysis (EDA), feature engineering (FE), feature selection (FS), model building, model evaluation, price prediction and and recommendations.
+Diamond price prediction is a project with a lifecycle of data science process, which includes data collection, data exploratory analysis (EDA), feature engineering (FE), feature selection (FS), model building, model evaluation, price prediction and recommendations.
 
-![test image]("https://image.shutterstock.com/image-photo/beautiful-cosmos-flowers-blooming-garden-600w-797194879.jpg")
+![Data Science process](images/ds_process.jpg)
+ 
