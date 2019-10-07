@@ -38,12 +38,11 @@ run;
 /*Get unique records from diamonds_dup dataset, which will be 
 joined back to diamonds_uniq (clean one)*/
 proc sql;
-	create table project.diamonds_uni_dup as 
+    create table project.diamonds_uni_dup as 
     select carat, cut, color, clarity, depth, table, price, x, y, z, 
     count(*) as numRows
     from project.diamonds_dup
-    group by carat, cut, color, clarity, depth, table, price, x, y, z
-   ;
+    group by carat, cut, color, clarity, depth, table, price, x, y, z;
 quit;
 
 /*Get the records that are duplicated from diamonds_uniq*/
@@ -132,10 +131,10 @@ run;
 ods graphics on;
 proc sgplot data=project.diamonds_clean;
   scatter x=carat y=price/ transparency=0.9
-						   markerattrs=(symbol=circlefilled
-						     			size=5
-										color=dodgerblue )
-						;
+			 markerattrs=(symbol=circlefilled
+				size=5
+			      color=dodgerblue );
+			      
 title color=white 'Scatter Plot of Price by Carat';
 footnote color=white 'Remark: data has carat > 3';
 
@@ -143,8 +142,8 @@ xaxis label='carat'
 	  labelattrs=(color=dimgray weight=bold)
 	  values=(0 1 2 3)
 	  valueattrs=(color=gray)
-      minor display=(noline) 
-      ;
+      minor display=(noline);
+
 yaxis label='price'
 	  labelattrs=(color=dimgray weight=bold)
 	  valueattrs=(color=gray)
@@ -152,8 +151,7 @@ yaxis label='price'
 	  gridattrs=(color=lightgray)
 	  minorgrid
 	  minorgridattrs=(color=lightgray)
-      display=(noline noticks) 
-      ;
+      display=(noline noticks);
 format price DOLLAR.;
 run;
 ods graphics off;
@@ -161,19 +159,19 @@ ods graphics off;
 ods graphics on;
 proc sgplot data=project.diamonds_clean;
   scatter x=depth y=price/ transparency=0.9
-						   markerattrs=(symbol=circlefilled
-						     			size=5
-										color=Green )
-						;
+			markerattrs=(symbol=circlefilled
+			       size=5
+			      color=Green);
+
 title color=white 'Scatter Plot of Price by depth';
 footnote;
 
 xaxis label='depth'
 	  labelattrs=(color=dimgray weight=bold)
 	  values=(40 60 80)  
- 	  valueattrs=(color=gray)
-      minor display=(noline) 
-      ;
+ 	  valueattrs=(color=gray)     
+	  minor display=(noline);
+
 yaxis label='price'
 	  labelattrs=(color=dimgray weight=bold)
 	  valueattrs=(color=gray)
@@ -181,8 +179,8 @@ yaxis label='price'
 	  gridattrs=(color=lightgray)
 	  minorgrid
 	  minorgridattrs=(color=lightgray)
-      display=(noline noticks) 
-      ;
+      display=(noline noticks);
+
 format price DOLLAR.;
 run;
 ods graphics off;
@@ -190,10 +188,10 @@ ods graphics off;
 ods graphics on;
 proc sgplot data=project.diamonds_clean;
   scatter x=table y=price/ transparency=0.9
-						   markerattrs=(symbol=circlefilled
-						     			size=5
-										color=wheat )
-						;
+		markerattrs=(symbol=circlefilled
+		        	size=5
+			        color=wheat );
+
 title color=white 'Scatter Plot of Price by Table';
 footnote color=white 'Remark: data has table > 80';
 
@@ -201,8 +199,8 @@ xaxis label='table'
 	  labelattrs=(color=dimgray weight=bold)
 	  values=(40 60 80)
 	  valueattrs=(color=gray)
-      minor display=(noline) 
-      ;
+      minor display=(noline);
+
 yaxis label='price'
 	  labelattrs=(color=dimgray weight=bold)
 	  valueattrs=(color=gray)
@@ -210,8 +208,8 @@ yaxis label='price'
 	  gridattrs=(color=lightgray)
 	  minorgrid
 	  minorgridattrs=(color=lightgray)
-      display=(noline noticks) 
-      ;
+      display=(noline noticks);
+
 format price DOLLAR.;
 run;
 ods graphics off;
@@ -219,19 +217,19 @@ ods graphics off;
 ods graphics on;
 proc sgplot data=project.diamonds_clean;
   scatter x=x y=price/ transparency=0.9
-						   markerattrs=(symbol=circlefilled
-						     			size=5
-										color=bib )
-						;
+	   markerattrs=(symbol=circlefilled
+     			size=5
+           		color=bib );
+
 title color=white 'Scatter Plot of Price by x';
 footnote color=white 'Remark: data has x>9';
 
 xaxis label='x'
 	  labelattrs=(color=dimgray weight=bold)
 	  values=(3 4 5 6 7 8 9)
-valueattrs=(color=gray)
-      minor display=(noline) 
-      ;
+          valueattrs=(color=gray)
+          minor display=(noline);
+
 yaxis label='price'
 	  labelattrs=(color=dimgray weight=bold)
 	  valueattrs=(color=gray)
@@ -239,8 +237,8 @@ yaxis label='price'
 	  gridattrs=(color=lightgray)
 	  minorgrid
 	  minorgridattrs=(color=lightgray)
-      display=(noline noticks) 
-      ;
+          display=(noline noticks);
+
 format price DOLLAR.;
 run;
 ods graphics off;
@@ -248,10 +246,10 @@ ods graphics off;
 ods graphics on;
 proc sgplot data=project.diamonds_clean;
   scatter x=y y=price/ transparency=0.9
-						   markerattrs=(symbol=circlefilled
-						     			size=5
-										color=yellow )
-						;
+		markerattrs=(symbol=circlefilled
+			size=5
+		       color=yellow );
+
 title color=white 'Scatter Plot of Price by y';
 footnote color=white 'Remark: data has y>9';
 
@@ -259,8 +257,8 @@ xaxis label='y'
 	  labelattrs=(color=dimgray weight=bold)
 	  values=(3 4 5 6 7 8 9)
 	  valueattrs=(color=gray)
-      minor display=(noline) 
-      ;
+          minor display=(noline);
+
 yaxis label='price'
 	  labelattrs=(color=dimgray weight=bold)
 	  valueattrs=(color=gray)
@@ -268,8 +266,8 @@ yaxis label='price'
 	  gridattrs=(color=lightgray)
 	  minorgrid
 	  minorgridattrs=(color=lightgray)
-      display=(noline noticks) 
-      ;
+          display=(noline noticks);
+
 format price DOLLAR.;
 run;
 ods graphics off;
@@ -277,10 +275,10 @@ ods graphics off;
 ods graphics on;
 proc sgplot data=project.diamonds_clean;
   scatter x=z y=price/ transparency=0.9
-						   markerattrs=(symbol=circlefilled
-						     			size=5
-										color=bio )
-						;
+		markerattrs=(symbol=circlefilled
+		       size=5
+		      color=bio);
+
 title color=white 'Scatter Plot of Price by z';
 footnote color=white 'Remark: data has z>6';
 
@@ -288,8 +286,8 @@ xaxis label='z'
 	  labelattrs=(color=dimgray weight=bold)
 	  values=(2 4 6)
 	  valueattrs=(color=gray)
-      minor display=(noline) 
-      ;
+          minor display=(noline);
+
 yaxis label='price'
 	  labelattrs=(color=dimgray weight=bold)
 	  valueattrs=(color=gray)
@@ -297,8 +295,8 @@ yaxis label='price'
 	  gridattrs=(color=lightgray)
 	  minorgrid
 	  minorgridattrs=(color=lightgray)
-      display=(noline noticks) 
-      ;
+          display=(noline noticks);
+
 format price DOLLAR.;
 run;
 ods graphics off;
@@ -341,14 +339,14 @@ ods graphics on;
 title 'Price vs clarity';
 proc sgplot data=project.diamonds_clean;
   vbox price/ category=clarity
-  			  dataskin=sheen
-			  outlierattrs=(color=green)
-			  meanattrs=(color=black)
-       	      medianattrs=(color=black)
-              connect=mean
-			  connectattrs=(color=red)
-;
-format price DOLLAR.
+         	  dataskin=sheen
+	      outlierattrs=(color=green)
+		  meanattrs=(color=black)
+        	medianattrs=(color=black)
+                    connect=mean
+	   connectattrs=(color=red);
+
+format price DOLLAR.;
 run;
 ods graphics off;
 
@@ -356,14 +354,14 @@ ods graphics on;
 title 'Price vs cut';
 proc sgplot data=project.diamonds_clean;
   vbox price/ category=cut
-  			  dataskin=sheen
-			  outlierattrs=(color=green)
-			  meanattrs=(color=black)
-       	      medianattrs=(color=black)
+             dataskin=sheen
+	  outlierattrs=(color=green)
+	   meanattrs=(color=black)
+       	     medianattrs=(color=black)
               connect=mean
-			  connectattrs=(color=red)
-;
-format price DOLLAR.
+	  connectattrs=(color=red);
+
+format price DOLLAR.;
 run;
 ods graphics off;
 
@@ -374,11 +372,10 @@ proc sgplot data=project.diamonds_clean;
   			  dataskin=sheen
 			  outlierattrs=(color=green)
 			  meanattrs=(color=black)
-       	      medianattrs=(color=black)
-              connect=mean
-			  connectattrs=(color=red)
-;
-format price DOLLAR.
+       	                  medianattrs=(color=black)
+                          connect=mean
+			  connectattrs=(color=red);
+format price DOLLAR.;
 run;
 ods graphics off;
 
@@ -391,7 +388,7 @@ proc sgplot data=project.diamonds_clean;
 			  connect=mean
 			  connectattrs=(color=red);
 xaxis display=(novalues);
-format price DOLLAR.
+format price DOLLAR.;
 run;
 
 
