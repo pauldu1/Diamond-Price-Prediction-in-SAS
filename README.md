@@ -23,4 +23,4 @@ We assume that historical diamond data was collected from the current retial mar
 ## Lifecycle Data Science Process
 Diamond price prediction is a project with a lifecyle of data science process, which includes data collection, data exploratory analysis (EDA), feature engineering (FE), feature selection (FS), model building, model evaluation, price prediction and and recommendations.
 
-![data science process](data_science_process.png)
+![data science process]("https://github.com/pauldu1/Diamond-Price-Prediction-in-SAS/blob/master/data_dcience_process.png")
