@@ -31,8 +31,7 @@ data project.&outfile.;
         when ('F') color_ord = 5;           
         when ('E') color_ord = 6;           
         when ('D') color_ord = 7;           /* D-F = Colorless is highest color grade */
-        otherwise
-        ;
+        otherwise;
     End;
 	%if &infile.=diamonds_clean %then 
 		%do;
@@ -42,8 +41,7 @@ data project.&outfile.;
 		        when ('Very Good') cut_ord = 3;
 		        when ('Premium')   cut_ord = 4;
 		        when ('Ideal')     cut_ord = 5;     /* Highest level of fire and brilliance */
-		        otherwise
-		        ;
+		        otherwise;
 		    End;
 
 		    Select (clarity);
@@ -55,8 +53,7 @@ data project.&outfile.;
 		        when ('VVS2') clarity_ord = 6;      /* Very Very Small Inclusions 1 */
 		        when ('VVS1') clarity_ord = 7;      /* Very Very Small Inclusions 2 */
 		        when ('IF')   clarity_ord = 8;      /* Internally Flawless is the best */
-		        otherwise
-		        ;
+		        otherwise;
 		    End;
 	%end;
 run;
