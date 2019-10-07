@@ -93,7 +93,7 @@ ODS GRAPHICS OFF;
 ```
 **Output:**
 <p align="center">
-<img src=images/5_num_stat.jpg alt="Your image title" width="450" />
+<img src=images/5_Num_Stat.jpg alt="Your image title" width="450" />
 </p>
 
 The output is a 5-number statistics - minimum, maximum, median, lower quartile and upper quartile. 5-number statistics tells the distribution of data about the central line or mean. If the mean is in the middle of range between minimum and maximum, it is called normal distribution. Otherwise, if the mean is close to one side, it is called skewed distribution. In this output, depth and table are normally distributed based on their mean, min and max. The variable carat and price, on the other hand, the mean extremely goes to the minimum side. They are extremely skewed to the right. Note that minimum x, y and z are 0. This indicates that the data is not clean because x, y, or z cannot be 0. 
