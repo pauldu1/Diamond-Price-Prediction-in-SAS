@@ -11,7 +11,7 @@ proc surveyselect data=project.diamonds_FE
     samprate=0.7     /* Wanted Training Dataset 70% */
     seed=1357924
     outall; /*includes all observations from the input data set
-	         and also each observation’s selection status*/
+	         and also each observationâ€™s selection status*/
 run;
 
 /*Select training and validation data sets and export*/
