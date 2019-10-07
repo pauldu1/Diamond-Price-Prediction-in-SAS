@@ -8,12 +8,10 @@ Proc GLMSELECT data=project.Diamonds_Training valdata=project.Diamonds_Validatio
      Class Cut Color Clarity;
 
      Model logprice = logcarat|cut|color|clarity @2 / Choose=Validate
-                                                      Stats=(ASE AIC ADJRSQ)
-                                                      ;
+                                                      Stats=(ASE AIC ADJRSQ);
      output out=project.Model_3_Stat
             P=pred_price3
-            R=Residual3            
-            ;
+            R=Residual3;
 Run;
 ODS graphics off;
 
@@ -28,20 +26,19 @@ Run;
 ods graphics on;
 proc sgplot data=project.model_3_stat;
   scatter x=price y=predicted_price/ transparency=0.9
-						   markerattrs=(symbol=circlefilled
-						     			size=5
-										color=dodgerblue )
-						;
+				markerattrs=(symbol=circlefilled
+				size=5
+				color=dodgerblue );
+				
 title color=white 'Scatter Plot of Price by Predicted Price';
 footnote color=white 'Remark: Predicted price has outliers';
 footnote2 color=white 'as large as $30,000 although very few';
 
 xaxis label='price'
 	  labelattrs=(color=dimgray weight=bold)
-	  
 	  valueattrs=(color=gray)
-      minor display=(noline) 
-      ;
+          minor display=(noline);
+
 yaxis label='predicted price'
 	  labelattrs=(color=dimgray weight=bold)
 	  valueattrs=(color=gray)
@@ -49,8 +46,8 @@ yaxis label='predicted price'
 	  gridattrs=(color=lightgray)
 	  minorgrid
 	  minorgridattrs=(color=lightgray)
-      display=(noline noticks) 
-      ;
+          display=(noline noticks); 
+
 format price predicted_price DOLLAR.;
 run;
 ods graphics off;
