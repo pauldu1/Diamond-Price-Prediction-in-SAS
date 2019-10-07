@@ -333,6 +333,7 @@ The result shows how the price is distributed across different sub groups in cla
 </p>
 The new box plot reveals that price in sub-groups of ordinal clarity is different. The mean price is the highest at sub-group 2 while that is the lowest at sub-group 7. The mean price in sub-groups of clarity from the worst to the best decreases except the sub-group 2 with the highest mean price.  
 
+
 **Deal with Carat as Categorical Variable** – When exploring the carat variable, it is found carat values are not unique. It can be classified into different groups. We can deal it as the categorical variable and see what pattern it will have. The code at below uses the similar syntax as previous code except category with carat, `nooutliers` and `novalues` displayed in `xaxis`.  
 
 ```
