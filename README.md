@@ -84,7 +84,7 @@ Diamond dataset includes 53,940 observations, 11 variables, 3 of them categorica
 **5 Number Statistics** - To go further inside the data, “`proc mean`” is used to get the descriptive statistics about the data.  It allows to customize the statistics and “`ODS NOPROCTITLE`” suppresses the default title.  Variables are listed after “`var`” keyword. Note that only numeric variables can be listed after “`var`”. 
 ```
 ODS NOPROCTITLE;
-title '5 Number Summary';
+TITLE '5 Number Summary';
 proc means data=project.diamonds_raw min max median q1 q3;
 var carat depth price table x y z;
 run;
