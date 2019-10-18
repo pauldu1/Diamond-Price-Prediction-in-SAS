@@ -777,5 +777,5 @@ Model 2 uses dummy features from one hot encoding and machine learning forward f
 <p></p>
 Model 3 performs the best by using categorical features and letting the machine learning `GLMSELECT` to select effects that include the interaction, which, indeed, is a process of machine learning in both feature engineering and feature selection. The model results in a R2 at 0.9723 and average dollar residual at validation dataset $175. The total predicted dollars in new diamond dataset is $12.3 million and the suggested total investment for 3,000 diamonds is $8.6 million. 
 
-## CONCLUSIONS
+## Conclusions
 By using SAS as the platform, the model has achieved a 0.9723 R Square and an average dollar residual between predicted price and actual price at $175. The final proposed investment for 3,000 diamonds is $8.6 million. The `GLMSELECT` performs the best in predicting diamond price by including the interaction between features, which is a process of machine learning in both feature engineering and feature selection. 
