@@ -38,14 +38,17 @@ Run;
 %import(foler=test, infile=new_diamonds, outfile=TestDiamonds)
 
 ```
+
 ## Exploratory Data Analysis
 
 ### Dataset:
+
 ```
 ODS SLECT attributes variables;
 proc contents data=project.diamonds_raw;
 run;
 ```
+
 **Output:**
 <p align="center">
 <img src=images/attributes.jpg alt="Your image title" width="400" />
@@ -57,6 +60,7 @@ run;
 Diamond dataset includes 53,940 observations, 11 variables, 3 of them categorical and 8 of them numeric. 
 
 ### 5 Number Statistics 
+
 ```
 ODS NOPROCTITLE;
 TITLE '5 Number Summary';
@@ -65,6 +69,7 @@ proc means data=project.diamonds_raw min max median q1 q3;
 run;
 ODS GRAPHICS OFF;
 ```
+
 **Output:**
 <p align="center">
 <img src=images/5_num_stat.jpg alt="Your image title" width="450" />
@@ -73,6 +78,7 @@ ODS GRAPHICS OFF;
 5-number statistics tells the distribution of data about the central line or mean. If the mean is in the middle of range between minimum and maximum, it is called normal distribution. Otherwise, it is called skewed distribution. In this output, depth and table are normally distributed. The variable carat and price, on the other hand, are extremely skewed to the right. Note that minimum x, y and z are 0. This indicates that the data is not clean because x, y, or z cannot be 0.
 
 ### Duplication Check 
+
 ```
 proc sort data=project.diamonds_raw nodupkey 
 	out=project.diamonds_uniq 
@@ -83,6 +89,7 @@ run;
 ```
 
 ### Validity Check
+
 ```
 proc sql;
 	create table project.zero as
@@ -96,9 +103,11 @@ data project.diamonds_clean;
 run;
 
 ```
+
 After removing the duplicates and records with zero values, the total number of observations is 53,775.
 
 ### Histogram for Individual Variables 
+
 ```
 ODS GRAPHICS ON;
 ODS NOPROCTITLE;
@@ -112,6 +121,7 @@ run;
 ODS GRAPHICS OFF;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/carat_histogram.jpg alt="Your image title" width="450" />
@@ -123,6 +133,7 @@ ODS GRAPHICS OFF;
 The histograms show that both diamond price and carat are skewed to the right, which is consistent with the result from previous 5-number statistics. 
 
 ### Normal Quartile-Quartile Plot 
+
 ```
 ODS GRAPHICS ON;
 TITLE 'Q-Q plot';
@@ -135,6 +146,7 @@ proc univariate data=project.diamonds_clean noprint;
 run;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/carat_qqplot.jpg alt="Your image title" width="450" />
@@ -146,6 +158,7 @@ run;
 The result is consistent with the previous results that both price and carat are not normally distributed. Some transformations are required afterwards.
 
 ### Scatter for Pair of Continuous Variables
+
 ```
 ODS GRAPHICS ON;
 proc sgplot data=project.diamonds_clean;
@@ -177,6 +190,7 @@ run;
 ODS GRAPHICS OFF;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/price_carat_scatter.jpg alt="Your image title" width="450" />
@@ -185,6 +199,7 @@ ODS GRAPHICS OFF;
 The scatter plot shows how carat fits the price well. However, the data points start dispersed when the values increase. Also the points are not continuously distributed and seemly affected by some vertical “unknown” lines.   
 
 ### Correlation between Continuous Variables
+
 ```
 ODS GRAPHICS ON;
 IDS SELECT PearsonCorr;
@@ -195,6 +210,7 @@ run;
 ODS GRAPHICS OFF;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/correlation_coefficients.jpg alt="Your image title" width="450" />
@@ -203,6 +219,7 @@ ODS GRAPHICS OFF;
 The matrix of correlation coefficient shows that carat is highly correlated to x, y, and z. It can be explained by the fact that the weight of diamond – carat is highly related to its volume or size, aka x, y and z. Besides, carat is also highly correlated to price. On the other hand, depth and table are very weakly correlated with price or carat. The coefficient matrix suggests that x, y, z should not be selected for the further predictive modeling for their collinearity with carat while depth and table should not be selected due to their weak correlation with the price.    
 
 ### Coefficient Matrix Visualization 
+
 ```
 ODS GRAPHICS ON
 TITLE 'Matrix of correlation between continuous variables';
@@ -220,6 +237,7 @@ ODS GRAPHICS OFF;
 The visualized correlation matrix provides a big picture to compare the correlations between paired variables. 
 
 ### Association between Categorical Variables   
+
 ```
 ODS GRAPHICS ON
 TITLE 'Chi square test for 3Cs';
@@ -230,6 +248,7 @@ run;
 ODS GRAPHICS OFF;
 
 ```   
+
 **Output:**
 <p align="center">
 <img src=images/chisq_test_clarity_cut.jpg alt="Your image title" width="450" />
@@ -241,6 +260,7 @@ ODS GRAPHICS OFF;
 The first table in the output is the chi-square test table, which shows the frequency and percent of data distributed each other by clarity and cut. The second table shows the overall association, where Cramer’s V is a common indicator of independency with value from 0 to 1. If Cramer’s V is small, the association between two categorical variable is weak. In this case, the association between clarity and cut is very weak.  
 
 ### Association between Categorical and Numeric Variables by Box-plot 
+
 ```
 ODS GRAPHICS ON;
 TITLE 'Price vs clarity';
@@ -258,6 +278,7 @@ run;
 ODS GRAPHICS OFF;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/price_clarity_boxplot.jpg alt="Your image title" width="450" />
@@ -272,6 +293,7 @@ The new box plot reveals that price in sub-groups of ordinal clarity is differen
 <p></p>
 
 ### Deal with Carat as Categorical Variable   
+
 ```
 ODS GRAPHICS ON;
 title 'Price vs carat';
@@ -288,6 +310,7 @@ proc sgplot data=project.diamonds_clean;
 run;
 ODS GRAPHICS OFF
 ```
+
 **Output:**
 <p align="center">
 <img src=images/price_carat_boxplot.jpg alt="Your image title" width="450" />
@@ -296,7 +319,9 @@ ODS GRAPHICS OFF
 It reveals that carat fits the price very well. That also helps explain the fact that carat is highly correlated with price.
 
 ## Feature Engineering
+
 ### Log Transformation and Ordinal Coding
+
 ```
 %macro log_ord(infile=, outfile=);
 data project.&outfile.;
@@ -349,7 +374,9 @@ run;
 %log_ord(infile=TestDiamonds, outfile=TestDiamonds_FE)
 
 ```
+
 ### Creating Dummy Features
+
 ```
 %macro dummy_proc(cls, lvl, fe);
 data DS.&fe.;
@@ -369,8 +396,11 @@ run;
 %dummy_proc(cls=clarity, lvl=8, fe=TestDiamonds_FE)
 
 ```
+
 ## Predictive Modeling
+
 ### Split Dataset
+
 ```
 proc surveyselect data=project.diamonds_FE
 	out=project.Diamonds_Train_Valid
@@ -393,7 +423,9 @@ Run;
 ```
 
 ### Model 1: Multiple Linear Regression with Ordinal Features
+
 **Model Training**
+
 ```
 ODS GRAPHICS ON;
 Proc REG data=project.Diamonds_Training
@@ -402,6 +434,7 @@ Proc REG data=project.Diamonds_Training
 Run;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/model1_variance.jpg alt="Your image title" width="350" />
@@ -416,6 +449,7 @@ Run;
 Model 1 achieved Adjusted R Square at 0.9525.
 
 **Model Evaluation**
+
 ```
 Proc Score Data=project.Diamonds_Validation      
            Score=project.Model_1_ParameterEst
@@ -465,6 +499,7 @@ run;
 ODS GRAPHICS OFF;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/model1_evaluation1.jpg alt="Your image title" width="450" />
@@ -484,6 +519,7 @@ run;
 ODS GRAPHICS OFF;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/model1_evaluation2.jpg alt="Your image title" width="450" />
@@ -492,6 +528,7 @@ ODS GRAPHICS OFF;
 It tells that the residual is a normally distributed but with a large range of outliers in the right side. The mean dollar residual of predicted price is $249.
 
 **Predict Price in New Diamond Dataset** 
+
 ```
 Proc Score Data=project.TestDiamonds_FE      
            Score=project.Model_1_ParameterEst
@@ -507,10 +544,13 @@ Data project.Model_1_Pred (keep=Predicted_Price carat cut color clarity);
 Run;
 
 ```
+
 The total amount of predicted price from 3,000 diamonds is $12.7 million.
 
 ### Model 2: Multiple Linear Regression with One Hot Dummy Features 
+
 **Feature Selection - Forward Method**
+
 ```
 Proc REG data=DS.Diamonds_Training;
     logprice_1hot: Model logprice = logcarat 
@@ -520,6 +560,7 @@ Proc REG data=DS.Diamonds_Training;
                                     /slentry=0.99 selection=forward;
 Run;
 ```
+
 **Output:**
 <p align="center">
 <img src=images/model2_featureselection.jpg alt="Your image title" width="450" />
@@ -528,6 +569,7 @@ Run;
 It shows that cut_3, color_5 and clarity_6 were selected out and model’s R-Square achieved at 0.9581. Then we apply those selected features into regression model to get parameter estimates.
 
 **Model Training**
+
 ```
 Proc REG data=DS.Diamonds_Training outest=DS.Model_2_ParameterEst;
      logprice_1hot: Model logprice = logcarat 
@@ -539,6 +581,7 @@ Run;
 ```
 
 **Model Evaluation**
+
 ```
 Proc Score Data=DS.Diamonds_Validation      
            Score=DS.Model_2_ParameterEst
@@ -556,6 +599,7 @@ Data DS.Model_2_val (keep=price Predicted_Price residual carat cut color clarity
     residual=Predicted_price-price;
 Run;
 ```
+
 **Visualize the Performance**
 
 **Output:**
@@ -571,6 +615,7 @@ The result shows that model performance is improved with regard to the residual 
 The mean residual of predicted price is reduced to $239 from model 1’s $249.
 
 **Predict the Price in New Diamond Dataset**
+
 ```
 Proc Score Data=DS.TestDiamonds_FE      
            Score=DS.Model_2_ParameterEst
@@ -588,10 +633,13 @@ Data DS.Model_2_Pred (keep=Predicted_Price carat cut color clarity);
 Run;
 
 ```
+
 The total amount of predicted price from 3,000 diamonds is $12.6 million.
 
 ### Model 3: Multiple Linear Regression with Interactions by GLMSELECT
+
 **Model Selection**
+
 ```
 ODS GRAPHICS ON;
 Proc GLMSELECT data=project.Diamonds_Training valdata=project.Diamonds_Validation
@@ -609,6 +657,7 @@ Run;
 ODS GRAPHICS OFF;
 
 ```
+
 **Output:**
 <p align="center">
 <img src=images/model3_summary.jpg alt="Your image title" width="350" />
@@ -648,6 +697,7 @@ Data project.Model_3_stat (keep=price Predicted_Price residual carat cut color c
 Run;
 
 ```
+
 **Visualize the Performance**
 
 **Output:**
@@ -712,6 +762,7 @@ Data project.Model_3_new_pred (drop=logprice);
 Run;
 
 ```
+
 The total amount of predicted price from 3,000 diamonds is $12.3 million.
 
 ### Model Summary
