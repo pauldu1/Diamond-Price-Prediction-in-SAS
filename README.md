@@ -38,7 +38,7 @@ Run;
 %import(foler=test, infile=new_diamonds, outfile=TestDiamonds)
 
 ```
-## Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis
 
 ### Dataset:
 ```
@@ -295,7 +295,7 @@ ODS GRAPHICS OFF
 
 It reveals that carat fits the price very well. That also helps explain the fact that carat is highly correlated with price.
 
-## Feature Engineering (FE)
+## Feature Engineering
 ### Log Transformation and Ordinal Coding
 ```
 %macro log_ord(infile=, outfile=);
@@ -568,7 +568,7 @@ The result shows that model performance is improved with regard to the residual 
 <p align="center">
 <img src=images/model2_evaluation2.jpg alt="Your image title" width="450" />
 </p>
-The mean residual of predicted price is reduced to $239 from model 1’s $249 and the maximum residual is reduced to $95,630.
+The mean residual of predicted price is reduced to $239 from model 1’s $249.
 
 **Predict the Price in New Diamond Dataset**
 ```
@@ -594,13 +594,14 @@ The total amount of predicted price from 3,000 diamonds is $12.6 million.
 **Model Selection**
 ```
 ODS GRAPHICS ON;
-Proc GLMSELECT data=project.Diamonds_Training        valdata=project.Diamonds_Validation
+Proc GLMSELECT data=project.Diamonds_Training valdata=project.Diamonds_Validation
                PLOTS=All;
 
      Class Cut Color Clarity;
 
      Model logprice = logcarat|cut|color|clarity @2 / Choose=Validate
-                                                      Stats=(ASE AIC          ADJRSQ);
+                                                      Stats=(ASE AIC          
+						      ADJRSQ);
      output out=project.Model_3_Stat
             P=pred_price3
             R=Residual3;
@@ -719,14 +720,11 @@ Three predictive models are summarized in the following table.
 <img src=images/model_comparison.jpg alt="Your image title" width="450" />
 </p>
 
-Model 1 uses ordinal as the predictors with manual feature selection to the linear multiple regression model. It ends with a 0.9525 R2 and average residual at validation dataset $249. The total dollars in new diamond dataset predicted is $12.7 million and the suggested total investment for 3,000 diamonds is $8.9 million (the suggest investment is the predicted price multiplied by 0.7).  
+Model 1 uses the ordinal as the predictors with manual feature selection to the multiple linear regression model. It ends with a 0.9525 R2 and average dollar residual at validation dataset $249. The total dollars in new diamond dataset predicted is $12.7 million and the suggested total investment for 3,000 diamonds is $8.9 million (the suggested investment is the predicted price multiplied by 0.7).  
 <p></p>
-Model 2 uses dummy features from one hot encoding and machine learning forward feature selection method, which provides with a better performance in comparison with model 1. The R2 is 0.9581 and average residual at validation dataset is $240. The total predicted dollars in new diamond dataset is $12.6 million and the suggested total investment for 3,000 diamonds is $8.8 million.
+Model 2 uses dummy features from one hot encoding and machine learning forward feature selection method, which provides with a better performance in comparison with model 1. The R2 is 0.9581 and average dollar residual at validation dataset is $240. The total predicted dollars in new diamond dataset is $12.6 million and the suggested total investment for 3,000 diamonds is $8.8 million.
 <p></p>
-Model 3 performs the best by using categorical features and letting the machine learning `GLMSELECT` to select effects that consider the interaction, which, indeed, is a process of machine learning in both feature engineering and feature selection. The model results in a R2 at 0.9723 and average residual at validation dataset $175. The total predicted dollars in new diamond dataset is $12.3 million and the suggested total investment for 3,000 diamonds is $8.6 million. 
+Model 3 performs the best by using categorical features and letting the machine learning `GLMSELECT` to select effects that include the interaction, which, indeed, is a process of machine learning in both feature engineering and feature selection. The model results in a R2 at 0.9723 and average dollar residual at validation dataset $175. The total predicted dollars in new diamond dataset is $12.3 million and the suggested total investment for 3,000 diamonds is $8.6 million. 
 
 ## CONCLUSIONS
-Diamond price prediction used SAS EG 8.1 as the platform and went through the entire lifecycle of data science process starting from EDA to obtain the understanding of dataset about diamond. The EDA provided the fundament for the further predictive modeling analysis, which included feature engineering, feature selection, model training, validation and diamond price prediction. The model has achieved a 0.9723 R Square and an average residual between predicted price and actual price at $175.  And the final suggested investment for entire 3,000 diamonds will be $8.6 million, which saved $0.3 million from model 1. Although the historical diamond price was not normally distributed and the transformed price showed a bimodal distribution pattern, the machine learning particularly `GLMSELECT` performed very well with taking the interaction between features into account, which indeed, a process of machine learning in both feature engineering and feature selection. 
-
-
-
+By using SAS as the platform, the model has achieved a 0.9723 R Square and an average dollar residual between predicted price and actual price at $175.  And the final proposed investment for 3,000 diamonds is $8.6 million. The `GLMSELECT` performed very well in predicting diamond price by including the interaction between features, which is a process of machine learning in both feature engineering and feature selection. 
