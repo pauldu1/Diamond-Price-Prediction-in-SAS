@@ -1,7 +1,7 @@
 # Diamond Price Prediction in SAS
  
 ## Introduction
-A jewelry company wants to put in a bid to purchase but is unsure how much it should bid. The objectives are to collect the historical diamond data set and conduct exploratory data analysis and predictive analysis to provide the predicted prices for 3,000 diamonds to bid.
+A jewelry company wants to put in a bid to purchase a large set of diamonds but the problem is that the company does not know how much it should bid. The goal is to explore the historical diamond dataset and provide the predicted prices for 3,000 diamonds to bid.
 
 #### Steps Covered:
 *	Importing Data
@@ -10,9 +10,9 @@ A jewelry company wants to put in a bid to purchase but is unsure how much it sh
 *	Predictive Analysis
 
 ## Importing Data
-There are two diamond datasets - one is historical data named diamonds.csv and the other new diamond named new_diamonds.csv.
+There are two diamond datasets - one is historical data named diamonds.csv and the other new diamond data named new_diamonds.csv.
 
-CSV files are loaded with **proc import** and **macro**. There is an unnamed column (var1), therefore, a new rec_id field is created and var1 is dropped. 
+CSV files are loaded with **proc import** and **macro**. There is an unnamed column (var1). A new rec_id field is created and var1 is dropped. 
 
 Suppose the library is defined as “project”, diamonds.csv in training folder and new_diamonds.csv in the test folder.
 
@@ -54,7 +54,7 @@ run;
 <img src=images/variables.jpg alt="Your image title" width="300" />
 </p>
 
-Diamond dataset includes 53,940 observations, 11 variables, 3 of them categorical and 8 numeric. Besides, the output also tells the other information such as length and format of variables.
+Diamond dataset includes 53,940 observations, 11 variables, 3 of them categorical and 8 of them numeric. 
 
 ### 5 Number Statistics 
 ```
@@ -70,7 +70,7 @@ ODS GRAPHICS OFF;
 <img src=images/5_num_stat.jpg alt="Your image title" width="450" />
 </p>
 
-The output is a 5-number statistics - minimum, maximum, median, lower quartile and upper quartile. 5-number statistics tells the distribution of data about the central line or mean. If the mean is in the middle of range between minimum and maximum, it is called normal distribution. Otherwise, if the mean is close to one side, it is called skewed distribution. In this output, depth and table are normally distributed based on their mean, min and max. The variable carat and price, on the other hand, the mean extremely goes to the minimum side. They are extremely skewed to the right. Note that minimum x, y and z are 0. This indicates that the data is not clean because x, y, or z cannot be 0.
+5-number statistics tells the distribution of data about the central line or mean. If the mean is in the middle of range between minimum and maximum, it is called normal distribution. Otherwise, it is called skewed distribution. In this output, depth and table are normally distributed. The variable carat and price, on the other hand, are extremely skewed to the right. Note that minimum x, y and z are 0. This indicates that the data is not clean because x, y, or z cannot be 0.
 
 ### Duplication Check 
 ```
@@ -96,7 +96,7 @@ data project.diamonds_clean;
 run;
 
 ```
-After removing the duplicates and records with zero values, the total number of records of diamond dataset – diamonds_clean is 53,775.
+After removing the duplicates and records with zero values, the total number of observations is 53,775.
 
 ### Histogram for Individual Variables 
 ```
@@ -120,7 +120,7 @@ ODS GRAPHICS OFF;
 <img src=images/price_histogram.jpg alt="Your image title" width="450" />
 </p>
 
-The histograms show that both diamond price and carat are skewed to the right, especially the price. This confirmed the result interpretation from previous 5-number statistics about the distribution of carat and price. For skewed data, it is necessary to apply the appropriate transformation before entering the predictive analysis.
+The histograms show that both diamond price and carat are skewed to the right, which is consistent with the result from previous 5-number statistics. 
 
 ### Normal Quartile-Quartile Plot 
 ```
@@ -143,7 +143,7 @@ run;
 <img src=images/price_qqplot.jpg alt="Your image title" width="450" />
 </p>
 
-The result is consistent with the result from histogram that both price and carat are not normally distributed. Some transformations are required afterwards.
+The result is consistent with the previous results that both price and carat are not normally distributed. Some transformations are required afterwards.
 
 ### Scatter for Pair of Continuous Variables
 ```
@@ -200,7 +200,7 @@ ODS GRAPHICS OFF;
 <img src=images/correlation_coefficients.jpg alt="Your image title" width="450" />
 </p>
 
-The matrix of correlation coefficient shows that carat is highly correlated to x, y, and z. It can be explained by the fact that the weight of diamond – carat is the result of diamond’s volume, aka x, y and z. In the same time, carat is also highly correlated to price. On the other hand, depth and table are very weakly correlated with price or carat. The coefficient matrix suggests that x, y, z should not be selected for the further predictive modeling for their collinearity nature with carat while depth and table should not be selected due to their weak correlation with the price.    
+The matrix of correlation coefficient shows that carat is highly correlated to x, y, and z. It can be explained by the fact that the weight of diamond – carat is highly related to its volume or size, aka x, y and z. Besides, carat is also highly correlated to price. On the other hand, depth and table are very weakly correlated with price or carat. The coefficient matrix suggests that x, y, z should not be selected for the further predictive modeling for their collinearity with carat while depth and table should not be selected due to their weak correlation with the price.    
 
 ### Coefficient Matrix Visualization 
 ```
@@ -217,7 +217,7 @@ ODS GRAPHICS OFF;
 <img src=images/correlation_matrix.jpg alt="Your image title" width="450" />
 </p>
 
-The visualized correlation matrix provides a big picture to compare the correlations between paired variables. The result shows that carat almost perfectly correlated with x, y, and z and highly correlated to price. For that reason, price is also highly correlated to x, y, and z. On the other hand, depth and table are highly correlated to y, z, but not carat and price.
+The visualized correlation matrix provides a big picture to compare the correlations between paired variables. 
 
 ### Association between Categorical Variables   
 ```
@@ -263,7 +263,7 @@ ODS GRAPHICS OFF;
 <img src=images/price_clarity_boxplot.jpg alt="Your image title" width="450" />
 </p>
 
-The result shows how the price is distributed across different sub groups in clarity. It is worthy to note that the sub-group of clarity is ordered by alphabet, not the meaningful grade. Therefore, it is necessary to apply this procedure to dataset with transformed ordinal variables so that the sub-group will be ordered by its grade. The output with the ordinal variable is showed at below.
+The result shows how the price is distributed across different sub groups in clarity. It is worthy to note that the sub-group of clarity is ordered by alphabet, not the grade. Therefore, it is necessary to apply this procedure to dataset with transformed ordinal variables so that the sub-group will be ordered by its grade. The output with the ordinal variable is showed at below.
 
 <p align="center">
 <img src=images/price_clarity_ord_boxplot.jpg alt="Your image title" width="450" />
@@ -469,7 +469,7 @@ ODS GRAPHICS OFF;
 <p align="center">
 <img src=images/model1_evaluation1.jpg alt="Your image title" width="450" />
 </p>
-It suggests that predicted price fits the actual price well overall. However, it involves in a large range of outliers although they are very few. To see the residuals, we plot it in the histogram.
+It suggests that predicted price fits the actual price well overall. However, it involves in a large range of outliers.
 
 ```
 ODS GRAPHICS ON;
@@ -489,7 +489,7 @@ ODS GRAPHICS OFF;
 <img src=images/model1_evaluation2.jpg alt="Your image title" width="450" />
 </p>
 
-It tells that the residual is a normally distributed but with a large range of outliers in the right side. The mean residual of predicted price is $249.
+It tells that the residual is a normally distributed but with a large range of outliers in the right side. The mean dollar residual of predicted price is $249.
 
 **Predict Price in New Diamond Dataset** 
 ```
@@ -507,7 +507,7 @@ Data project.Model_1_Pred (keep=Predicted_Price carat cut color clarity);
 Run;
 
 ```
-The new diamond dataset with predicted price is exported to the spreadsheet and the total amount of predicted price from 3,000 diamonds is $12.7 million.
+The total amount of predicted price from 3,000 diamonds is $12.7 million.
 
 ### Model 2: Multiple Linear Regression with One Hot Dummy Features 
 **Feature Selection - Forward Method**
@@ -525,7 +525,7 @@ Run;
 <img src=images/model2_featureselection.jpg alt="Your image title" width="450" />
 </p>
 
-It shows that cut_3, color_5 and clarity_6 were selected out and model’s R-Square achieved at 0.9581 and Cp at 19. Then we apply those selected features into regression model to get parameter estimates.
+It shows that cut_3, color_5 and clarity_6 were selected out and model’s R-Square achieved at 0.9581. Then we apply those selected features into regression model to get parameter estimates.
 
 **Model Training**
 ```
@@ -634,7 +634,7 @@ ODS GRAPHICS OFF;
 <p align="center">
 <img src=images/model3_performance.jpg alt="Your image title" width="180" />
 </p>
-Model 3 involves 11 effects and 173 parameters, stopping at step5 by adding cut class effect with Adjusted R Square at 0.9723, Root MSE 0.17, AIC -96220.
+Model 3 involves 11 effects and 173 parameters, stopping at step5 by adding cut class effect with Adjusted R Square at 0.9723.
 <p></p>
 11 effects include: intercept, clarity, cut, color, logcarat, logcarat*clarity, logcarat*cut, logcarat*color, clarity*cut, clarity*color, cut*color. The paramters include all break downs of categorical levels plut the intercept.
 <p></p>
@@ -661,7 +661,7 @@ The mean residual is reduced to $175 from $249 in model 1 and $240 in model 2. I
 <p></p>
 After model selection and validation, we will go to predict the diamond price in the new diamond dataset.
 <p></p>
-GLMSELECT allows for directly apply the model to new dataset, but requires the target variable in the new dataset. New diamond dataset does not include the log price variable. The solution is to create a new dataset called Unknown_TestDiamonds by merging previous validation dataset and new diamond dataset from the feature engineering with the separate label “validation” and “test”. After we get the predicted price, we can select the predicted price for 3,000 diamonds in new diamond dataset with condition of “test”.
+GLMSELECT allows for directly applying the model to new dataset, but requires the target variable in the new dataset. New diamond dataset does not include the log price variable. The solution is to create a new dataset called Unknown_TestDiamonds by merging previous validation dataset and new diamond dataset from the feature engineering with the separate label “validation” and “test”. After we get the predicted price, we can select the predicted price for 3,000 diamonds in new diamond dataset with the condition of “test”.
 
 ```
 Data project.Diamonds_Validation2 (keep=DS logprice logcarat cut color clarity);
@@ -712,7 +712,7 @@ Data project.Model_3_new_pred (drop=logprice);
 Run;
 
 ```
-The new diamond dataset with predicted price for model 3 is exported to the spreadsheet and the total amount of predicted price from 3,000 diamonds is $12.3 million.
+The total amount of predicted price from 3,000 diamonds is $12.3 million.
 
 ### Model Summary
 Three predictive models are summarized in the following table. 
@@ -727,4 +727,4 @@ Model 2 uses dummy features from one hot encoding and machine learning forward f
 Model 3 performs the best by using categorical features and letting the machine learning `GLMSELECT` to select effects that include the interaction, which, indeed, is a process of machine learning in both feature engineering and feature selection. The model results in a R2 at 0.9723 and average dollar residual at validation dataset $175. The total predicted dollars in new diamond dataset is $12.3 million and the suggested total investment for 3,000 diamonds is $8.6 million. 
 
 ## CONCLUSIONS
-By using SAS as the platform, the model has achieved a 0.9723 R Square and an average dollar residual between predicted price and actual price at $175.  And the final proposed investment for 3,000 diamonds is $8.6 million. The `GLMSELECT` performed very well in predicting diamond price by including the interaction between features, which is a process of machine learning in both feature engineering and feature selection. 
+By using SAS as the platform, the model has achieved a 0.9723 R Square and an average dollar residual between predicted price and actual price at $175. The final proposed investment for 3,000 diamonds is $8.6 million. The `GLMSELECT` performs the best in predicting diamond price by including the interaction between features, which is a process of machine learning in both feature engineering and feature selection. 
