@@ -5,13 +5,11 @@ A jewelry company wants to put in a bid to purchase but is unsure how much it sh
 
 #### Steps Covered:
 *	Importing Data
-*	Cleaning & Exploring Data
-*	Transforming & Encoding Data
-*	Training and Validating Model
-*	Predicting Price
+*	Exploratory Data Analysis
+*	Feature Engineering
+*	Predictive Analysis
 
 ## Importing Data
-
 There are two diamond datasets - one is historical data named diamonds.csv and the other new diamond named new_diamonds.csv.
 
 CSV files are loaded with **proc import** and **macro**. There is an unnamed column (var1), therefore, a new rec_id field is created and var1 is dropped. 
@@ -41,7 +39,8 @@ Run;
 
 ```
 ## Exploratory Data Analysis (EDA)
-** Dataset**
+
+### Dataset:
 ```
 ODS SLECT attributes variables;
 proc contents data=project.diamonds_raw;
@@ -57,7 +56,7 @@ run;
 
 Diamond dataset includes 53,940 observations, 11 variables, 3 of them categorical and 8 numeric. Besides, the output also tells the other information such as length and format of variables.
 
-**5 Number Statistics** 
+### 5 Number Statistics 
 ```
 ODS NOPROCTITLE;
 TITLE '5 Number Summary';
@@ -73,7 +72,7 @@ ODS GRAPHICS OFF;
 
 The output is a 5-number statistics - minimum, maximum, median, lower quartile and upper quartile. 5-number statistics tells the distribution of data about the central line or mean. If the mean is in the middle of range between minimum and maximum, it is called normal distribution. Otherwise, if the mean is close to one side, it is called skewed distribution. In this output, depth and table are normally distributed based on their mean, min and max. The variable carat and price, on the other hand, the mean extremely goes to the minimum side. They are extremely skewed to the right. Note that minimum x, y and z are 0. This indicates that the data is not clean because x, y, or z cannot be 0.
 
-**Duplication Check** 
+### Duplication Check 
 ```
 proc sort data=project.diamonds_raw nodupkey 
 	out=project.diamonds_uniq 
@@ -83,7 +82,7 @@ run;
 
 ```
 
-**Validity Check**
+### Validity Check
 ```
 proc sql;
 	create table project.zero as
@@ -99,7 +98,7 @@ run;
 ```
 After removing the duplicates and records with zero values, the total number of records of diamond dataset – diamonds_clean is 53,775.
 
-**Histogram for Individual Variables** 
+### Histogram for Individual Variables 
 ```
 ODS GRAPHICS ON;
 ODS NOPROCTITLE;
@@ -123,7 +122,7 @@ ODS GRAPHICS OFF;
 
 The histograms show that both diamond price and carat are skewed to the right, especially the price. This confirmed the result interpretation from previous 5-number statistics about the distribution of carat and price. For skewed data, it is necessary to apply the appropriate transformation before entering the predictive analysis.
 
-**Normal Quartile-Quartile Plot** 
+### Normal Quartile-Quartile Plot 
 ```
 ODS GRAPHICS ON;
 TITLE 'Q-Q plot';
@@ -146,7 +145,7 @@ run;
 
 The result is consistent with the result from histogram that both price and carat are not normally distributed. Some transformations are required afterwards.
 
-**Scatter for Pair of Continuous Variables**
+### Scatter for Pair of Continuous Variables
 ```
 ODS GRAPHICS ON;
 proc sgplot data=project.diamonds_clean;
@@ -185,7 +184,7 @@ ODS GRAPHICS OFF;
 
 The scatter plot shows how carat fits the price well. However, the data points start dispersed when the values increase. Also the points are not continuously distributed and seemly affected by some vertical “unknown” lines.   
 
-**Correlation between Continuous Variables**  
+### Correlation between Continuous Variables
 ```
 ODS GRAPHICS ON;
 IDS SELECT PearsonCorr;
@@ -203,7 +202,7 @@ ODS GRAPHICS OFF;
 
 The matrix of correlation coefficient shows that carat is highly correlated to x, y, and z. It can be explained by the fact that the weight of diamond – carat is the result of diamond’s volume, aka x, y and z. In the same time, carat is also highly correlated to price. On the other hand, depth and table are very weakly correlated with price or carat. The coefficient matrix suggests that x, y, z should not be selected for the further predictive modeling for their collinearity nature with carat while depth and table should not be selected due to their weak correlation with the price.    
 
-**Coefficient Matrix Visualization** 
+### Coefficient Matrix Visualization 
 ```
 ODS GRAPHICS ON
 TITLE 'Matrix of correlation between continuous variables';
@@ -220,7 +219,7 @@ ODS GRAPHICS OFF;
 
 The visualized correlation matrix provides a big picture to compare the correlations between paired variables. The result shows that carat almost perfectly correlated with x, y, and z and highly correlated to price. For that reason, price is also highly correlated to x, y, and z. On the other hand, depth and table are highly correlated to y, z, but not carat and price.
 
-**Association between Categorical Variables**   
+### Association between Categorical Variables   
 ```
 ODS GRAPHICS ON
 TITLE 'Chi square test for 3Cs';
@@ -241,7 +240,7 @@ ODS GRAPHICS OFF;
 
 The first table in the output is the chi-square test table, which shows the frequency and percent of data distributed each other by clarity and cut. The second table shows the overall association, where Cramer’s V is a common indicator of independency with value from 0 to 1. If Cramer’s V is small, the association between two categorical variable is weak. In this case, the association between clarity and cut is very weak.  
 
-**Association between Categorical and Numeric Variables by Box-plot** 
+### Association between Categorical and Numeric Variables by Box-plot 
 ```
 ODS GRAPHICS ON;
 TITLE 'Price vs clarity';
@@ -272,7 +271,7 @@ The result shows how the price is distributed across different sub groups in cla
 The new box plot reveals that price in sub-groups of ordinal clarity is different. The mean price is the highest at sub-group 2 while that is the lowest at sub-group 7. The mean price in sub-groups of clarity from the worst to the best decreases except the sub-group 2 with the highest mean price.  
 <p></p>
 
-**Deal with Carat as Categorical Variable**   
+### Deal with Carat as Categorical Variable   
 ```
 ODS GRAPHICS ON;
 title 'Price vs carat';
@@ -296,16 +295,8 @@ ODS GRAPHICS OFF
 
 It reveals that carat fits the price very well. That also helps explain the fact that carat is highly correlated with price.
 
-### Recap of EDA
-*	The raw diamond dataset involves in duplicates and invalid data with zero values in x, y, or z.
-*	Diamond price and carat are not normally distributed, especially price that extremely skewed to the right side. The transformation is necessary.
-*	Carat is highly correlated with x, y, and z while also highly correlated to price. Depth and table, on the other hand, are very weakly correlated with carat and price.
-*	Categorical variables are very weakly correlated each other between clarity, cut and color.
-*	Diamond price varies over the sub-groups of categorical variables.
-*	As a result, depth, table, x, y, and z will not be selected to the further predictive analysis.
-
 ## Feature Engineering (FE)
-**Log Transformation and Ordinal Coding**
+### Log Transformation and Ordinal Coding
 ```
 %macro log_ord(infile=, outfile=);
 data project.&outfile.;
@@ -358,8 +349,7 @@ run;
 %log_ord(infile=TestDiamonds, outfile=TestDiamonds_FE)
 
 ```
-
-**Creating Dummy Features**
+### Creating Dummy Features
 ```
 %macro dummy_proc(cls, lvl, fe);
 data DS.&fe.;
@@ -379,13 +369,8 @@ run;
 %dummy_proc(cls=clarity, lvl=8, fe=TestDiamonds_FE)
 
 ```
-### Recaps of FE
-*	Transform price and carat using natural logarithm.
-*	Create ordinal features by encoding the categorical levels. 
-*	Create dummy features using one hot encoding.  
-
 ## Predictive Modeling
-**Split Dataset**
+### Split Dataset
 ```
 proc surveyselect data=project.diamonds_FE
 	out=project.Diamonds_Train_Valid
